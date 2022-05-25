@@ -1,95 +1,37 @@
-import dotenv from 'dotenv'
-dotenv.config()
-import { watchFile, unwatchFile } from 'fs'
-import chalk from 'chalk'
-import { fileURLToPath } from 'url'
+const fs = require('fs')
+const chalk = require('chalk')
 
-global.donasi = process.env.DONASI
-global.thumbmenu = process.env.THUMB_MENU
-global.sig = process.env.LINK_IG
-global.sgh = process.env.LINK_GITHUB
-global.sgc = process.env.LINK_GROUP
-global.ownernumber = process.env.NOWNER
-global.owner = [
-  ['0'],
-  ['0'],
-  [`${process.env.NOWNER}`, `${process.env.NAMAOWNER}`, true]
-  // [number, dia creator/owner?, dia developer?]
-] // Put your number here
-global.mods = [`${process.env.MODERATOR}`] // Want some help?
-global.prems = [] // Premium user has unlimited limit
-global.APIs = { // API Prefix
-  // name: 'https://website'
-  nrtm: 'https://nurutomo.herokuapp.com',
-  bg: 'http://bochil.ddns.net',
-  xteam: 'https://api.xteam.xyz',
-  zahir: 'https://zahirr-web.herokuapp.com',
-  zeks: 'https://api.zeks.xyz',
-  pencarikode: 'https://pencarikode.xyz',
-  LeysCoder: 'https://leyscoders-api.herokuapp.com'
-}
-global.APIKeys = { // APIKey Here
-  // 'https://website': 'apikey'
-  'https://api.xteam.xyz': 'd90a9e986e18778b',
-  'https://zahirr-web.herokuapp.com': 'zahirgans',
-  'https://api.zeks.xyz': 'apivinz',
-  'https://pencarikode.xyz': 'pais',
-  'https://leyscoders-api.herokuapp.com': 'dappakntlll'
-}
+// self or public
+global.self = false //jadiin true klo gk mau fitur bot lu di pke sama org lain
 
-// Sticker WM
-global.packname = process.env.PACKNAME
-global.author = process.env.AUTHOR
+// setting
+global.ownername ="*Lexxy_Official*" //ganti nama owner lu
+global.ownernumber = "6282279915237" //ganti nomor lu
+global.botname = "Haruka Bot" // ganti nama bot lu
+global.thumbnail = fs.readFileSync("./settings/logo.jpg") //sesuaikan dengan nama foto
+global.background = "https://telegra.ph/file/d4c05638fa7886a1d8060.jpg"
+global.lolkey = 'YOUR_APIKEY' //beli di web nya https://api.lolhuman.xyz/docs
+global.dbs = '```' //Biarin aja
+global.groupowner = 'https://chat.whatsapp.com/E3zewfxrc5pKE6Rzb3BuqG'
 
-global.multiplier = 69 // The higher, The harder levelup
+// sewa bot
+global.sewa1bulan = 'Rp.15.000' //ganti sesuai harga
+global.sewa2bulan = 'Rp.25.000' //ganti sesuai harga
+global.sewa3bulan = 'Rp.35.000' //ganti sesuai harga
+global.sewa4bulan = 'Rp.50.000' //ganti sesuai harga
+global.sewapermanen = 'Rp.70.000' //ganti sesuai harga
 
-global.rpg = {
-  emoticon(string) {
-    string = string.toLowerCase()
-    let emot = {
-      level: '📊',
-      limit: '🎫',
-      health: '❤️',
-      exp: '✨',
-      money: '💹',
-      bank: '🏦',
-      potion: '🥤',
-      diamond: '💎',
-      common: '📦',
-      uncommon: '🛍️',
-      mythic: '🎁',
-      legendary: '🗃️',
-      superior: '💼',
-      pet: '🔖',
-      trash: '🗑',
-      armor: '🥼',
-      sword: '⚔️',
-      pickaxe: '⛏️',
-      fishingrod: '🎣',
-      wood: '🪵',
-      rock: '🪨',
-      string: '🕸️',
-      horse: '🐴',
-      cat: '🐱',
-      dog: '🐶',
-      fox: '🦊',
-      petFood: '🍖',
-      iron: '⛓️',
-      gold: '🪙',
-      emerald: '❇️',
-      upgrader: '🧰'
-      
-    }
-    let results = Object.keys(emot).map(v => [v, new RegExp(v, 'gi')]).filter(v => v[1].test(string))
-    if (!results.length) return ''
-    else return emot[results[0][0]]
-  }
-}
+global.limit = {
+		free:20,
+		premium:1000
+	}
+global.session_name = "session.json"
 
 
-let file = fileURLToPath(import.meta.url)
-watchFile(file, () => {
-  unwatchFile(file)
-  console.log(chalk.redBright("Update 'config.js'"))
-  import(`${file}?update=${Date.now()}`)
+let file = require.resolve(__filename)
+fs.watchFile(file, () => {
+	fs.unwatchFile(file)
+	console.log(chalk.redBright(`Update'${__filename}'`))
+	delete require.cache[file]
+	require(file)
 })
